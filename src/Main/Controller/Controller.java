@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Controller {
 
     public void startHttpServer() {
-        int port = 8080; // 서버 포트 설정
+        int port = 4500; // 서버 포트 설정
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("HTTP Echo Server started on port " + port);
