@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Controller {
 
-    public static void main(String[] args) {
+    public void startHttpServer() {
         int port = 8080; // 서버 포트 설정
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
