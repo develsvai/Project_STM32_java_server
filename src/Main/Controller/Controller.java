@@ -1,14 +1,34 @@
 package Main.Controller;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.sun.net.httpserver.HttpServer;
+import java.net.InetSocketAddress;
+
 
 public class Controller {
+
+    public static void main(String[] args) throws IOException{
+        Controller controller = new Controller();
+        controller.httpServer2();
+
+    }
+
+
+    public void httpServer2() throws IOException {
+        InetSocketAddress address = new InetSocketAddress(8080);
+        HttpServer httpServer = HttpServer.create(address, 0);
+
+        httpServer.createContext("/", (exchange) -> {
+            InputStream inputStream= exchange.getRequestBody();
+            byte[] bytes = inputStream.readAllBytes();
+            String body = new String(bytes);
+
+            System.out.println(body);
+        } );
+
+        httpServer.start();
+    }
 
     public void startHttpServer() {
         int port = 4500; // 서버 포트 설정
@@ -53,8 +73,8 @@ public class Controller {
 
 
                 String body = bodyBuilder.toString();
-                System.out.println("Received request:\n" + requestBuilder.toString());
-                System.out.println("Body :\n" + bodyBuilder.toString());
+                System.out.println("Received request:\n" + requestBuilder);
+                System.out.println("Body :\n" + bodyBuilder);
 
 
                 // 클라이언트에게 요청과 본문을 그대로 응답
@@ -63,7 +83,6 @@ public class Controller {
                         "\r\n" +
                         "body:\n" + body + "\n";
 
-//                String response = "hello world\r\n";
                 OutputStream outputStream = clientSocket.getOutputStream();
                 outputStream.write(response.getBytes());
 
